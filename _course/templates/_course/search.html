@@ -1,0 +1,28 @@
+{% extends '_course/base.html' %}
+
+{% block body %}
+
+    {% if data %}
+    {{data.Email}}
+    <br>
+    {% comment %} {{data.First_name}},
+    {{data.Last_name}},
+    {{data.Email}},
+    {{data.Phone}},
+    {{data.Password}} {% endcomment %}
+    {% for key, values in data.items %}
+    <p>{{data.key}}</p>
+    
+    {% endfor %}
+    {% else %}
+
+    <form action="">
+
+{{sfm.as_p}}
+    <input type="submit" value="Submit">
+
+    </form>
+    {% endif %}
+
+
+{% endblock body %}

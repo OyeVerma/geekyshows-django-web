@@ -1,0 +1,25 @@
+{% extends '_course/base.html' %}
+
+{% block body %}
+
+
+{% if data %}
+<div class="container">
+    {% for obj in data.values %}
+    <div class="row">
+    {{obj}}
+        {% for key, value in obj.items %}
+        <p class="display-3">{{key}} = {{value}}</p>
+        {% endfor %}
+    </div>
+    <hr>
+    {% endfor %}
+</div>
+
+{% else %}
+
+<div class="h1">NO Data</div>
+
+{% endif %}
+
+{% endblock body %}

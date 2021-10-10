@@ -1,0 +1,31 @@
+{% extends '_course/base.html' %}
+
+{% block body %}
+
+
+
+{% if fm %}
+<form action="" method="post">{% csrf_token %}
+
+{{fm.as_p}}
+<input type="submit" value="Submit">
+
+</form>
+
+    {% elif data %}
+
+        {% if data == 'Not Valid' %}    
+
+        {{data}}
+
+        {% else %}
+
+        {{data}}
+
+
+    {% endif %}
+
+
+{% endif %}
+
+{% endblock body %}

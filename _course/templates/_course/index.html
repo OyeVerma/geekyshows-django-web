@@ -1,0 +1,44 @@
+{% extends '_course/base.html' %}
+
+{% block body %}
+
+
+
+    {% if fm %}
+    <form action="" method="post" novalidate>
+    {% csrf_token %}
+    
+    {{fm.as_p}}
+    <input type="submit" value="Submit">
+
+    <hr>
+    {% if fm.first_name.value == 'Shiavm' %}
+    
+    Yeepee
+    {% endif %}
+    </form>
+
+    {% else %}
+<a href="{% url 'search' %}">Search</a>
+        {% if data %}
+
+        {% comment %} {{data.values}} {% endcomment %}
+        {% for obj in data.values %}
+
+        <table>
+        {{obj.First_name}}
+        {% comment %} {% for key, value in obj %}
+        <tr>
+            <th>{{key}}</th>
+            <td>{{value}}</td>
+        </tr>
+        {% endfor %} {% endcomment %}
+        </table>
+        
+        
+        {% endfor %}
+        {% endif %}
+    {% endif %}
+
+
+{% endblock body %}

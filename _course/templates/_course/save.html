@@ -1,0 +1,19 @@
+{% extends '_course/base.html' %}
+
+{% block body %}
+
+    {% if message %}
+    
+    {{message}}
+
+    {% else %}
+
+    <form action="" method='post'>
+    {% csrf_token %}
+    {{fm.as_ul}}
+    <input type="submit" value="Save">
+    </form>
+    {% endif %}
+
+
+{% endblock body %}

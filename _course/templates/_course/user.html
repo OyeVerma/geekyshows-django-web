@@ -1,0 +1,18 @@
+{% extends '_course/base.html' %}
+
+{% block body %}
+
+{% if ufm %}
+
+<form action="" method="post">
+{% csrf_token %}
+{{ufm.as_p}}
+<input type="submit" value="__Make User__">
+
+</form>
+
+
+
+{% endif %}
+
+{% endblock body %}
