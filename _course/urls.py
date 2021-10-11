@@ -9,6 +9,6 @@ urlpatterns = [
     path('success/', views.success),
     path('form/', views.form),
     path("user/", views.user, name="user_registration"),
-    path('project/<int:u>/<int:theta>/', views.views.proj_u_theta),
+    path('project/<int:u>/<int:theta>/', views.proj_u_theta),
     
 ]

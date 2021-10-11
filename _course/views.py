@@ -120,18 +120,23 @@ def user(request):
 
     return render(request, '_course/user.html', context)
 
-import python_math as math
+import math
 def proj_u_theta(request, u, theta):
     g = 9.81
-    usin, ucos = u*(math.sin(math.PI * theta / 360)), u*(math.cos(math.PI * theta / 360))
-    time = usin / g
+    angle = math.radians(theta)
+    usin, ucos = u*(math.sin(angle)), u*(math.cos(angle))
+    print(usin, ucos)
+    time = 2*(usin / g)
     range = ucos * time
     height = math.pow(usin, 2) / (2 * g)
 
     context = {
+        'u':u,
+        'angle':[f'{theta}_deg', f'{angle}_rad'],
         't':time,
         'r':range,
-        'h':height
+        'h':height,
+
     }
 
     return render(request, '_course/projectile.html', context)
