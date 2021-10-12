@@ -1,0 +1,28 @@
+
+<p class="h4 text-center alert alert-info border border-primary">Add New Student</p>
+<div class="border border-muted p-2">
+ {% if form %}
+ 
+ 
+ 
+ 
+<form action="" method="post">
+{% csrf_token %}
+
+
+{{form.as_p}}
+
+<input type="submit" value="Add" class="btn btn-warning border mb-0 border-warning p-2 text-center form-control">
+{% if message %}
+<p class="alert alert-success p-2 mt-2 mb-2 form-control border border-success text-center">{{message}}</p>
+{% endif %}
+ 
+ 
+ {% endif %}
+
+
+
+</div>
+
+
+</form>

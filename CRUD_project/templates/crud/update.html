@@ -3,10 +3,21 @@
 {% block body %}
 
 
+<div class="col-sm-4 offset-sm-4 ">
 
 
 
+<p class="h4 alert alert-dark  text-center">Update {{data.name}} Details</p>
+<form action="" method="post">
+{% csrf_token %}
 
+{{form.as_p}}
+<input type="submit" value="Update" class="btn btn-primary w-100">
+</form>
+
+
+
+</div>
 
 
 

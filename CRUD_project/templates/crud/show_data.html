@@ -1,0 +1,47 @@
+
+<p class="h4 text-center alert alert-info border border-primary">Our Students Information</p>
+
+{% if data %}
+
+<table class="table table table-bordered table-striped mb-0">
+
+
+<thead>
+<tr>
+
+<th scope="col">Id</th>
+<th scope="col">Name</th>
+<th scope="col">Email</th>
+<th scope="col">Password</th>
+<th scope="col">Action</th>
+</tr>
+</thead>
+
+
+<tbody>
+
+{% for obj in data %}
+<tr>
+
+<th scope="row">{{forloop.counter}}</th>
+<td>{{obj.name}}</td>
+<td>{{obj.email}}</td>
+<td>{{obj.passw}}</td>
+<td>
+<form action="{% url 'update' obj.id %}" method="post">
+{% csrf_token %}
+<input type="submit" class="btn btn-primary" value="Update"></form>
+
+<form action="{% url 'delete' obj.id %}" method="post">
+{% csrf_token %}
+<input type="submit" class="btn btn-danger" value="Delete"></form>
+</td>
+
+
+</tr>
+{% endfor %}
+
+</tbody>
+</table>
+
+{% endif %}
