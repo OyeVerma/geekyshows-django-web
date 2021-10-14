@@ -1,0 +1,10 @@
+{% extends '_user/base.html' %}
+
+{% block body %}
+
+<div class="container alert alert-info h1 text-center">
+Hello {{request.user}} </div>
+{{userchangeform}}
+<a href="{% url 'logout' %}">Logout</a>
+
+{% endblock body %}

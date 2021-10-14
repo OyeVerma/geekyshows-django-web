@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 
     '_course',
     'CRUD_project',
+    '_user',
+    
 ]
 
 MIDDLEWARE = [

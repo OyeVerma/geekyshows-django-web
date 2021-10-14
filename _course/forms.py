@@ -1,8 +1,9 @@
 from typing import cast
 from django import forms
 from django.forms import widgets
-
+from .models import inheritance
 from .models import User
+from django.contrib.auth.forms import UserCreationForm
 
 class MainForm(forms.Form):
     first_name = forms.CharField(min_length=5, max_length=10, strip=True)
@@ -38,5 +39,17 @@ class UserForm(forms.ModelForm):
             'name':forms.TextInput(attrs={'class':'border border-danger'}),
             'password':forms.PasswordInput
         }
+
+class inheritanceStudentForm(forms.ModelForm):
+    
+    class Meta:
+        model = inheritance
+        exclude = ("teacher_name",)
+
+class inheritanceTeacherForm(forms.ModelForm):
+    
+    class Meta:
+        model = inheritance
+        exclude = ("student_name",)
 
 

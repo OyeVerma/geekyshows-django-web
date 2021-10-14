@@ -10,5 +10,7 @@ urlpatterns = [
     path('form/', views.form),
     path("user/", views.user, name="user_registration"),
     path('project/<int:u>/<int:theta>/', views.proj_u_theta),
+    path('stureg/', views.stureg, name='stureg'),
+    path('teareg/', views.teareg, name='teareg'),
     
 ]

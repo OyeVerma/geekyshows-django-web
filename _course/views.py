@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 
-from .forms import MainForm as fm, SearchForm as sfm, UserForm as ufm
+from .forms import MainForm as fm, SearchForm as sfm, UserForm as ufm, inheritanceStudentForm, inheritanceTeacherForm
 from .models import DbForm as dm, User
 # Create your views here.
 
@@ -140,3 +140,17 @@ def proj_u_theta(request, u, theta):
     }
 
     return render(request, '_course/projectile.html', context)
+
+def stureg(request):
+    return render(request, '_course/stureg.html', {
+        'title':'Student Registration',
+        'form':inheritanceStudentForm()
+    })
+
+def teareg(request):
+    return render(request, '_course/teareg.html', {
+        'title':'Teacher Registration',
+        'form':inheritanceTeacherForm()
+    })
+
+

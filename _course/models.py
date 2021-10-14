@@ -19,3 +19,10 @@ class User(models.Model):
 
 class rabel(models.Model):
     name = models.CharField(max_length=50)
+
+class inheritance(models.Model):
+    student_name = models.CharField(max_length=50)
+    teacher_name = models.CharField(max_length=50)
+    email = models.EmailField(max_length=254)
+    password = models.CharField(max_length=50)
+
