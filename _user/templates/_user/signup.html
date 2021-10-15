@@ -4,22 +4,25 @@
 
 
 
-<div class="container mt-4">
+<div>
 
 
 
-<div class="col-md-4 offset-md-4">
+<div >
 
 
-<p class="h2 alert alert-warning text-center">Create New User</p>
-<form action="" method="post"> {% csrf_token %}
-{% for field in signupform %}{{field}}{% endfor %}
-<input type="submit" value="Sign Up" class="form-control btn btn-warning mt-2 mb-1">
-<a href="{% url 'login' %}" class="form-control text-center btn btn-primary">Already Have Account ? LogIn</a>
+<p >Create New User</p>
+<form action="" method="post" novalidate>
+{% csrf_token %}
+{% for field in signupform %}
+{{field.label}} {{field}}<br>
+{% endfor %}
+<input type="submit" value="Sign Up" >
+<a href="{% url 'login' %}" >Already Have Account ? LogIn</a>
 </form>
 {% for msg in messages %}
 {% if msg.level == 40 %}
-<p class="h4 alert alert-danger text-center mt-2">
+<p >
 User '{{msg}}' <br> is Successfully Created
 </p>
 {% endif %}
@@ -27,7 +30,7 @@ User '{{msg}}' <br> is Successfully Created
 {% endfor %}
 
 {% comment %} {% if msg %}
-<p class="h4 alert alert-success text-center mt-2">
+<p >
 User '{{msg}}' <br> is Successfully Created
 </p>
 {% endif %} {% endcomment %}

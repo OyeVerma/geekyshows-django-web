@@ -4,26 +4,32 @@
 
 
 
-<div class="container mt-4">
+<div >
 
 
 
-<div class="col-md-4 offset-md-4">
+<div >
 
 
-<p class="h2 alert alert-primary text-center">Login</p>
-<form action="" method="post"> {% csrf_token %}
+<p >Login</p>
+<form action="" method="post">
+{% csrf_token %}
 {% for field in loginform %}
-{{field.label}} = {{field}} <br>
+{{field.label}} {{field}} {{field.errors|striptags}} <br>
 {% endfor %}
-<input type="submit" value="LogIn" class="form-control btn btn-primary mt-2 mb-1">
-<a href="{% url 'signup' %}" class="form-control text-center btn btn-warning">Not Have Account ? Sign Up</a>
+<input type="submit" value="LogIn" >
+<a href="{% url 'signup' %}" >Not Have Account ? Sign Up</a>
 </form>
-{% if msg %}
-<p class="h4 alert alert-success text-center mt-2">
-User '{{msg}}' <br> is Successfully Created
+{% for msg in messages %}
+{% if msg.level == 40 %}
+
+
+<p >
+{{msg}}
 </p>
 {% endif %}
+
+{% endfor %}
 
 </div>
 
