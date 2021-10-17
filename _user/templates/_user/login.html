@@ -2,37 +2,17 @@
 
 {% block body %}
 
-
-
-<div >
-
-
-
-<div >
-
-
-<p >Login</p>
-<form action="" method="post">
-{% csrf_token %}
-{% for field in loginform %}
-{{field.label}} {{field}} {{field.errors|striptags}} <br>
-{% endfor %}
-<input type="submit" value="LogIn" >
-<a href="{% url 'signup' %}" >Not Have Account ? Sign Up</a>
-</form>
-{% for msg in messages %}
-{% if msg.level == 40 %}
-
-
-<p >
-{{msg}}
-</p>
-{% endif %}
-
-{% endfor %}
-
+<div class="container border border-dark">
+    <h1>LogIn</h1>
+    <form action="" method="post" novalidate>
+    {% csrf_token %}
+    {% for field in form %}
+    {{field.label}} {{field}} {{field.errors|striptags}} <br><br>
+    {% endfor %}
+    <input type="submit" value="Login" >
+    <a href="{% url 'signup' %}" ><input type="button" value="New Here ? Signup"></a>
+    </form>
 </div>
 
 
-</div>
-{% endblock body %}
+{% endblock body %}>

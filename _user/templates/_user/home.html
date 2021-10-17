@@ -1,0 +1,18 @@
+{% extends '_user/base.html' %}
+
+{% block body %}
+
+<div class="container">
+Username = {{request.user.username}} <br>
+Email = {{request.user.email}} <br>
+Password = <textarea name="" id="" cols="" rows="">
+{{request.user.password}}
+</textarea> <br>
+
+<a href="{% url 'logout' %}">   <input type="button" value="Logout">    </a>
+<a href="{% url 'changedetails' %}">    <input type="button" value="Change Your Details">   </a>
+<a href="{% url 'passchange' %}">   <input type="button" value="Change Your Password">  </a>
+
+</div>
+
+{% endblock body %}

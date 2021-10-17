@@ -1,0 +1,25 @@
+<div class="container">
+
+{% if messages %}
+    {% for msg in messages %}
+    
+        {% if msg.level == 20 %}
+        <div class="alert alert-info">{{msg}}</div>
+        {% endif %}
+        
+        {% if msg.level == 25 %}
+        <div class="alert alert-success">{{msg}}</div>
+        {% endif %}
+        
+        {% if msg.level == 30 %}
+        <div class="alert alert-warning">{{msg}}</div>
+        {% endif %}
+        
+        {% if msg.level == 40 %}
+        <div class="alert alert-danger">{{msg}}</div>
+        {% endif %}
+    
+    {% endfor %}
+{% endif %}
+
+</div>

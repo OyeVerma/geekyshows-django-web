@@ -1,72 +1,61 @@
-from django.contrib.auth import authenticate, login as log_in, logout
-from django.http.response import HttpResponseRedirect
+from django.contrib.auth import authenticate, login as log_in, logout, update_session_auth_hash
+from django.http.response import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import PasswordChangeForm, UserChangeForm, UserCreationForm
 
-from _user.forms import SignUpForm, LogInForm
+from _user.forms import SignUpForm, LogInForm, DetailsChangeForm
 
 # Create your views here.
+def home(request):
+    if request.user.is_authenticated:
 
+        return render(request, '_user/home.html', {
+            'title':'Home',
+        })
+    else:
+        redirect('signup')
 
 def signup(request):
     if request.method == 'POST':
         fm_data = UserCreationForm(request.POST)
-        print('\n'*10, fm_data, '\n'*10)
         if fm_data.is_valid():
             fm_data.save()
-            messages.add_message(
-                request,
-                messages.SUCCESS,
-                'Form Submitted'
-            )
-            return HttpResponseRedirect('/profile/')
+            # messages.add_message(request, messages.SUCCESS, 'Form Submitted')
+            return redirect('home')
         else:
             # if 
-            return render(
-                request,
-                '_user/signup.html',
-                {
-                    'signupform': UserCreationForm(request.POST)
-                }
-            )
-
-    return render(
-        request,
-        '_user/signup.html',
-        {
-            'signupform': UserCreationForm()
-        }
-    )
-
+            return render(request, '_user/signup.html', {
+                'form': UserCreationForm(request.POST)
+                })
+    else:
+        return render(request, '_user/signup.html', {
+            'form':UserCreationForm()
+        })
 
 def login(request):
     if request.user.is_authenticated:
-        print(1)
-        return HttpResponseRedirect('/profile/')
+        return HttpResponseRedirect('/home/')
 
     if request.method == "POST":
 
         fm_data = LogInForm(request=request, data=request.POST)
 
         if fm_data.is_valid():
-            print(2)
             user = fm_data.cleaned_data['username']
             passw = fm_data.cleaned_data['password']
             USER = authenticate(username=user, password=passw)
             if USER is not None:
-                print(2)
                 log_in(request, USER)
-                return HttpResponseRedirect('/profile/')
+                messages.add_message(request, messages.SUCCESS, 'Logged In Successfully !!')
+                return redirect('home')
             else:
-                print(3)
                 messages.add_message(request, messages.ERROR, 'user is NONE')
                 return HttpResponseRedirect('/login/')
 
         else:
-            print(4)
-            messages.add_message(request, messages.ERROR, fm_data.cleaned_data)
+            messages.add_message(request, messages.ERROR, 'form is not valid')
             return redirect('login')
             # return render(request, '_user/login.html', {
             #     'title':'!!!!!',
@@ -74,28 +63,36 @@ def login(request):
             #     'msg':fm_data.cleaned_data["username"]
             # })
     else:
-        print(5)
         return render(request, '_user/login.html', {
             'title': 'Log In',
-            'loginform': LogInForm()
+            'form': LogInForm()
         })
 
+def changedetails(request):
 
-def profile(request):
-    if request.method == 'POST':
-        profile_data = UserChangeForm(request.POST)
-        if profile_data.is_valid():
-            profile_data.save()
-        else:
-            messages.add_message(request, messages.DANGER,
-                                 'Form Field are NOt valid')
-            return render('/profile/')
-    
-    if not request.user.is_authenticated:
-        return render(request, '_user/profile.html', {
-        'title': '__PROFILE__',
-        'userchangeform': UserChangeForm()
-    })
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            changedetails_data = DetailsChangeForm(request.POST, instance=request.user)
+            if changedetails_data.is_valid():
+                changedetails_data.save()
+                messages.add_message(request, messages.SUCCESS, 'Credentials Saved SuccessFully')
+                return HttpResponseRedirect('/home/')
+            else:
+                messages.add_message(request, messages.WARNING, 'Form Field are NOt valid')
+                return redirect('changedetails')        
+        return render(request, '_user/changedetails.html', {
+            'userchangeform':DetailsChangeForm(initial={
+                'username':request.user.username,
+                'first_name':request.user.first_name,
+                'last_name':request.user.last_name,
+                'email':request.user.email,
+            }),
+
+        })
+
+    else:
+        messages.add_message(request, messages.INFO, 'You Have to SIGNUP first')
+        return redirect('signup')
 
 def logout_user(request):
     if request.user.is_authenticated:
@@ -103,21 +100,38 @@ def logout_user(request):
         return HttpResponseRedirect('/login/')
 
 def pass_change(request):
+
     if request.user.is_authenticated:
 
         if request.method == 'POST':
-            pass_data = PasswordChangeForm(user=request.user, date=request.POST)
-            if pass_data.is_valid:
+            pass_data = PasswordChangeForm(user=request.user, data=request.POST)
+            if pass_data.is_valid():
                 pass_data.save()
-                return HttpResponseRedirect('/profile/')
+                update_session_auth_hash(request.user)
+                messages.add_message(request, messages.SUCCESS, 'Password Changed Successfully')
+                return redirect('home')
+        
         else:
-            return render(
-                request,
-                '_user/passchange.html',
-                {
-                    'title':'Change Password',
-                    'passform':PasswordChangeForm(user=request.user)
-                }
-            )
-    else:
-        return redirect('signup')
+            return render(request, '_user/passchange.html', {
+                'title':'Change Your PassWord',
+                'form':PasswordChangeForm(user=request.user)
+            })
+    
+    return redirect('login')
+    #         else:
+    #             messages.add_message(request, messages.WARNING, 'Form NOt Valid')
+    #             return render(request, '_user/passchange.html',{
+    #                     'title':'Change Password 2',
+    #                     'passform':PasswordChangeForm(user=request.user)
+    #                 })
+    #     else:
+    #         return render(
+    #             request,
+    #             '_user/passchange.html',
+    #             {
+    #                 'title':'Change Password 1',
+    #                 'passform':PasswordChangeForm(user=request.user)
+    #             }
+    #         )
+    # else:
+    #     return redirect('signup')
