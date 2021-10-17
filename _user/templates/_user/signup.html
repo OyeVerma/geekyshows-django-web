@@ -2,7 +2,6 @@
 
 {% block body %}
 
-<div class="container border border-dark">
     <h1>Create New User</h1>
     <form action="" method="post" novalidate>
     {% csrf_token %}
@@ -12,7 +11,7 @@
     <input type="submit" value="Sign Up" >
     <a href="{% url 'login' %}" ><input type="button" value="Already Have Account ? LogIn"></a>
     </form>
-</div>
+
 
 
 {% endblock body %}>

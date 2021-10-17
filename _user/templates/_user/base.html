@@ -12,7 +12,12 @@
     <title>{{title}}</title>
 </head>
 <body>
+    {% if messages %}
     {% include '_user/messages.html' %}
+    {% endif %}
+
+    <div class="container border border-dark p-4">
     {% block body %}{% endblock body %}
+    </div>
 </body>
 </html>

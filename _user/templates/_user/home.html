@@ -2,8 +2,10 @@
 
 {% block body %}
 
-<div class="container">
 Username = {{request.user.username}} <br>
+Full name = {{request.user.full_name}} <br>
+First name = {{request.user.first_name}} <br>
+Last name = {{request.user.last_name}} <br>
 Email = {{request.user.email}} <br>
 Password = <textarea name="" id="" cols="" rows="">
 {{request.user.password}}
@@ -13,6 +15,5 @@ Password = <textarea name="" id="" cols="" rows="">
 <a href="{% url 'changedetails' %}">    <input type="button" value="Change Your Details">   </a>
 <a href="{% url 'passchange' %}">   <input type="button" value="Change Your Password">  </a>
 
-</div>
 
 {% endblock body %}

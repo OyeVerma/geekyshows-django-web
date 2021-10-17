@@ -10,22 +10,28 @@ from _user.forms import SignUpForm, LogInForm, DetailsChangeForm
 # Create your views here.
 def home(request):
     if request.user.is_authenticated:
-
         return render(request, '_user/home.html', {
-            'title':'Home',
+            'title':'__Home__',
         })
     else:
-        redirect('signup')
+        return redirect('signup')
 
 def signup(request):
     if request.method == 'POST':
         fm_data = UserCreationForm(request.POST)
         if fm_data.is_valid():
             fm_data.save()
-            # messages.add_message(request, messages.SUCCESS, 'Form Submitted')
-            return redirect('home')
+            messages.add_message(request, messages.SUCCESS, 'Signed Up Successfully !!')
+            user = fm_data.cleaned_data['username']
+            passw = fm_data.cleaned_data['password1']
+            USER = authenticate(username=user, password=passw)
+            if USER is not None:
+                log_in(request, USER)
+                messages.add_message(request, messages.SUCCESS, 'Logged In Successfully !!')
+                return redirect('home')
         else:
             # if 
+            messages.add_message(request, messages.ERROR, 'Invalid Form !')
             return render(request, '_user/signup.html', {
                 'form': UserCreationForm(request.POST)
                 })
@@ -80,13 +86,14 @@ def changedetails(request):
             else:
                 messages.add_message(request, messages.WARNING, 'Form Field are NOt valid')
                 return redirect('changedetails')        
-        return render(request, '_user/changedetails.html', {
-            'userchangeform':DetailsChangeForm(initial={
-                'username':request.user.username,
-                'first_name':request.user.first_name,
-                'last_name':request.user.last_name,
-                'email':request.user.email,
-            }),
+        else:
+            return render(request, '_user/changedetails.html', {
+                'form':DetailsChangeForm(initial={
+                    'username':request.user.username,
+                    'first_name':request.user.first_name,
+                    'last_name':request.user.last_name,
+                    'email':request.user.email,
+                }),
 
         })
 
@@ -96,6 +103,8 @@ def changedetails(request):
 
 def logout_user(request):
     if request.user.is_authenticated:
+        # messages.SUCCESS(request, f'User {request.user}, Logged out Successfully')
+        messages.add_message(request, messages.INFO, f'User ``{request.user}``, Logged out Successfully')
         logout(request)
         return HttpResponseRedirect('/login/')
 
@@ -107,7 +116,7 @@ def pass_change(request):
             pass_data = PasswordChangeForm(user=request.user, data=request.POST)
             if pass_data.is_valid():
                 pass_data.save()
-                update_session_auth_hash(request.user)
+                update_session_auth_hash(request, user=request.user)
                 messages.add_message(request, messages.SUCCESS, 'Password Changed Successfully')
                 return redirect('home')
         
